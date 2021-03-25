@@ -7,11 +7,8 @@
 
 import UIKit
 
-protocol UITextFieldDelegate {
-    
-}
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     // Result view init
     @IBOutlet weak var resultView: UIView!
@@ -35,10 +32,13 @@ class ViewController: UIViewController {
     @IBOutlet var mainField: UIView!
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
+        //input add
+        inputRed.addDoneButtonOnKeyboard()
+        inputGreen.addDoneButtonOnKeyboard()
+        inputBlue.addDoneButtonOnKeyboard()
         
         
         // View pre- features
@@ -74,11 +74,23 @@ class ViewController: UIViewController {
         inputGreen.text = String(sliderGreen.value)
         inputBlue.text = String(sliderBlue.value)
         
+        //Input manipulation
+        self.inputRed.delegate = self
+        
+        
     }
     
-    func doneClicked () {
-        view.endEditing(true)
+    // Return button closes keyboard
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
+    
+    // Done Button action
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        sliderRed.value = inputRed.value
+//     }
+    
     
 
     @IBAction func actionRed(_ sender: Any) {
@@ -115,18 +127,12 @@ class ViewController: UIViewController {
     
     
     
-    
-    @IBAction func enterRedValue(_ sender: Any) {
-        guard let result = inputRed.text, !result.isEmpty else {return}
-        guard let lengthValue = Float(inputRed.text!) else {return}
-        sliderRed.value = lengthValue
-    }
-    
 }
 
-extension UITextField {
+
+extension UITextField{
     func addDoneButtonOnKeyboard() {
-        let doneToolBar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        let doneToolBar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width,  height: 50))
         doneToolBar.barStyle = .default
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -136,6 +142,10 @@ extension UITextField {
         doneToolBar.items = items
         doneToolBar.sizeToFit()
         
-        self.inputA
+        self.inputAccessoryView = doneToolBar
+    }
+    
+    @objc func doneButtonAction() {
+        self.resignFirstResponder()
     }
 }
