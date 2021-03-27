@@ -76,6 +76,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         //Input manipulation
         self.inputRed.delegate = self
+        inputRed.keyboardType = .decimalPad
+        inputGreen.keyboardType = .decimalPad
+        inputBlue.keyboardType = .decimalPad
         
         
     }
@@ -85,6 +88,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
         return false
     }
+    
+    // code needed for Done button
+//    let weNeed = inputRed.text!
+//    if let result = Float(weNeed) {
+//        sliderRed.value = result
+//    } else {
+//        inputRed.text = "Enter number, please"
+//    }
     
     // Done Button action
 //    func textFieldDidEndEditing(_ textField: UITextField) {
